@@ -28,9 +28,57 @@
       "vhost":"/",
       "durable":true,
       "auto_delete":false,
-      "arguments":{}
+      "arguments":{
+        "x-dead-letter-exchange": "ex_reports_ttl"
+      }
+    },
+    {
+      "name":"reports_ttl",
+      "vhost":"/",
+      "durable":true,
+      "auto_delete":false,
+      "arguments":{
+        "x-dead-letter-exchange": "ex_reports",
+        "x-message-ttl": 30000
+      }
     }
   ],
-  "exchanges": [],
-  "bindings": []
+  "exchanges": [
+    {
+      "name": "ex_reports_ttl",
+      "type": "fanout",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "ex_reports",
+      "type": "fanout",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "ex_reports_ttl",
+      "vhost": "/",
+      "destination": "reports_ttl",
+      "destination_type": "queue",
+      "routing_key": "*",
+      "arguments": {}
+    },
+    {
+      "source": "ex_reports",
+      "vhost": "/",
+      "destination": "reports",
+      "destination_type": "queue",
+      "routing_key": "*",
+      "arguments": {}
+    }
+  ]
 }

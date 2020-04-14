@@ -70,7 +70,7 @@ $callback = function(AMQPMessage $msg) use ($config)
         $msg->delivery_info['channel']->basic_nack(
             $msg->delivery_info['delivery_tag'],
             false,
-            true
+            false
         );
     }
 
