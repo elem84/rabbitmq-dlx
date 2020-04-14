@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+    rabbit:
+        image: rabbitmq:3.8-management
+        hostname: rabbitmq
+        volumes:
+            - ./docker/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+            - ./docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+        ports:
+            - "5672:5672"
+            - "15672:15672"
